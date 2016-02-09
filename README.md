@@ -1,6 +1,6 @@
 # artifactory-artifact
 
-Chef LWRP to fetch artifact from Artifactory.
+LWRP for artifacts on Artifactory.
 
 ## Supported Platforms
 
