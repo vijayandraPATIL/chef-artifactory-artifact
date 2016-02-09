@@ -63,12 +63,15 @@ end
 
 action :create do
   manage_resource(new_resource)
+  new_resource.updated_by_last_action(true)
 end
 
 action :create_if_missing do
   manage_resource(new_resource)
+  new_resource.updated_by_last_action(true)
 end
 
 action :delete do
   manage_resource(new_resource)
+  new_resource.updated_by_last_action(true)
 end
