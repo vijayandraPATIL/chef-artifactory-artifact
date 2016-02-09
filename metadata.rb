@@ -1,0 +1,7 @@
+name             'artifactory-artifact'
+maintainer       'Yamashita, Yuu'
+maintainer_email 'yuu@treasure-data.com'
+license          'Apache 2.0'
+description      'LWRPs for Artifactory'
+long_description 'LWRPs for Artifactory'
+version          '0.1.0'
