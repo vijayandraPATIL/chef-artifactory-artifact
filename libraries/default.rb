@@ -57,7 +57,7 @@ module ArtifactoryArtifact
       request_has_body = request_class.const_get(:REQUEST_HAS_BODY) rescue false
       response_has_body = request_class.const_get(:RESPONSE_HAS_BODY) rescue false
       ::Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == "https") do |http|
-        request = request_class.new(uri)
+        request = request_class.new(uri.path)
         headers.each do |key, value|
           request[key] = value
         end
@@ -73,7 +73,6 @@ module ArtifactoryArtifact
               return JSON.parse(response.body) # TODO: decode bytes in given encoding
             else
               Chef::Log.warn("Artifactory REST API: warning: #{uri}: Unknown Content-Type: #{response["Content-Type"]}")
-p(response["Content-Type"])
               return response.body
             end
           else
