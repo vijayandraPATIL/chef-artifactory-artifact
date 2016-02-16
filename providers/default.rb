@@ -58,6 +58,10 @@ def manage_resource(new_resource)
     headers artifactory_headers
     source artifact_url.to_s
     action new_resource.action
+
+    group new_resource.group if new_resource.group
+    mode new_resource.mode if new_resource.mode
+    owner new_resource.owner if new_resource.owner
   end
 end
 
