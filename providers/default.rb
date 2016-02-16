@@ -1,25 +1,22 @@
-require "base64"
-require "open-uri"
 require "uri"
 
 def whyrun_supported?
   true
 end
 
+include ArtifactoryArtifact::Helper
+
 def manage_resource(new_resource)
-  if new_resource.artifactory_username or new_resource.artifactory_password
-    artifactory_headers = {
-      "Authorization" => "Basic #{::Base64.encode64("#{new_resource.artifactory_username}:#{new_resource.artifactory_password}")}",
-    }
-  else
-    artifactory_headers = {}
-  end
+  request_headers = artifactory_headers(
+    :username => new_resource.artifactory_username,
+    :password => new_resource.artifactory_password,
+  )
 
   if new_resource.artifactory_url
     artifactory_url = ::URI.parse(new_resource.artifactory_url)
   else
     if new_resource.artifactoryonline
-      artifactory_url = ::URI.parse("https://#{new_resource.artifactoryonline}.artifactoryonline.com/#{new_resource.artifactoryonline}/")
+      artifactory_url = ::URI.parse(artifactoryonline_url(new_resource.artifactoryonline))
     else
       fail("Artifactory URL is not specified")
     end
@@ -33,16 +30,9 @@ def manage_resource(new_resource)
   # https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API#ArtifactoryRESTAPI-FileInfo
   artifact_sha256sum = nil
   begin
-    storage_url.open(artifactory_headers) do |response|
-      code, reason = response.status
-      if code.to_i == 200
-        data = ::JSON.parse(response.read)
-        if data["checksums"] and data["checksums"]["sha256"]
-          sha256sum = data["checksums"]["sha256"]
-        end
-      else
-        fail("Artifactory REST API error: #{storage_url}: #{code} #{reason}")
-      end
+    data = artifactory_rest_get(storage_url, request_headers)
+    if data["checksums"] and data["checksums"]["sha256"]
+      sha256sum = data["checksums"]["sha256"]
     end
   rescue => error
     ::Chef::Log.warn(error)
@@ -55,7 +45,7 @@ def manage_resource(new_resource)
   remote_file new_resource.name do
     backup false
     checksum artifact_sha256sum
-    headers artifactory_headers
+    headers request_headers
     source artifact_url.to_s
     action new_resource.action
 
