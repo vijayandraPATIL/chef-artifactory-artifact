@@ -6,7 +6,7 @@ require "uri"
 module ArtifactoryArtifact
   module Helper
     def artifactoryonline_url(server_name)
-      "https://#{server_name}.artifactoryonline.com/#{server_name}"
+      "https://#{server_name}.jfrog.io/#{server_name}"
     end
 
     def artifactory_headers(options={})
