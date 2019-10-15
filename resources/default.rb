@@ -3,6 +3,7 @@ default_action :create
 property :artifactory_url, :kind_of => String
 property :artifactoryonline, :kind_of => String
 property :repository, :kind_of => String, :required => true
+property :repository_path, :kind_of => String, :required => true
 property :artifact_name, :kind_of => String, :required => true
 property :artifactory_username, :kind_of => String
 property :artifactory_password, :kind_of => String
@@ -62,7 +63,7 @@ action_class do
     puts "-------------------------------------------------------------------------------------------------------------"
     puts "Highest versioned artifact is #{highest_versioned_artifact}"
     puts "-------------------------------------------------------------------------------------------------------------"
-    new_resource.artifact_name = "/#{highest_versioned_artifact}"
+    new_resource.repository_path = "/#{highest_versioned_artifact}"
   end 
 
   def manage_resource(new_resource)
@@ -85,9 +86,9 @@ action_class do
       end
     end
 
-    artifact_name = "#{new_resource.repository.sub(/\A\/+/, "")}/#{new_resource.artifact_name}"
-    artifact_url = ::URI.join("#{artifactory_url}/", artifact_name.sub(/\A\/+/, ""))
-    storage_url = ::URI.join("#{artifactory_url}/", "api/storage/#{artifact_name}")
+    repository_path = "#{new_resource.repository.sub(/\A\/+/, "")}/#{new_resource.repository_path}"
+    artifact_url = ::URI.join("#{artifactory_url}/", repository_path.sub(/\A\/+/, ""))
+    storage_url = ::URI.join("#{artifactory_url}/", "api/storage/#{repository_path}")
 
     # Retrieve Artifact's SHA256 checksum via Artifactory REST API
     # https://www.jfrog.com/confluence/display/RTF/Artifactory+REST+API#ArtifactoryRESTAPI-FileInfo
