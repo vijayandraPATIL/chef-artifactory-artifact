@@ -67,7 +67,7 @@ action_class do
 
   def manage_resource(new_resource)
     if new_resource.highest 
-     fetch_highest(new_resource)
+      fetch_highest(new_resource)
     end
     
     request_headers = artifactory_headers(
