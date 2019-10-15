@@ -19,6 +19,18 @@ artifactory_artifact "/opt/twittersdk/twitter-core-1.6.4-javadoc.jar" do
 end
 ```
 
+Download highest versioned artifact from artifactory 
+```rb
+artifactory_artifact "/path/reponame.zip" do
+  artifactory_url ""
+  repository ""
+  artifact_name "XYZ-HIGHEST.zip"
+  highest true
+  artifactory_username ""
+  artifactory_password ""
+end
+```
+
 ## License and Authors
 
 Copyright 2016 Yamashita, Yuu (yuu@treasure-data.com)
