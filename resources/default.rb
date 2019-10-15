@@ -52,13 +52,11 @@ action_class do
     versions = repos.map { |x| x.values[-1] }
     puts "---------------------------------------"
     versions = versions.reject { |item| item.nil? || item == '' }
-    pp versions
     highest_version = versions.sort! { |x,y|
       Chef::Provider::Package::Yum::RPMUtils.rpmvercmp(x['version'], y['version'])
     } 
     highest_version = highest_version.last
     puts "---------------------------------------"
-    pp highest_version
     highest_versioned_artifact = repos.find {|h1| h1['version']==highest_version}['name']
     puts "-------------------------------------------------------------------------------------------------------------"
     puts "Highest versioned artifact is #{highest_versioned_artifact}"
