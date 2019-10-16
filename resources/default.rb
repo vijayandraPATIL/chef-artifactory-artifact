@@ -56,10 +56,11 @@ action_class do
     } 
     highest_version = highest_version.last
     highest_versioned_artifact = repos.find {|h1| h1['version']==highest_version}['name']
+    path = repos.find {|h1| h1['version']==highest_version}['path']
     puts "-------------------------------------------------------------------------------------------------------------"
     puts "Highest versioned artifact is #{highest_versioned_artifact}"
     puts "-------------------------------------------------------------------------------------------------------------"
-    new_resource.repository_path = "/#{highest_versioned_artifact}"
+    new_resource.repository_path = "#{path}/#{highest_versioned_artifact}"
   end 
 
   def manage_resource(new_resource)
