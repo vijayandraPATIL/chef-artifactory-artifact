@@ -30,7 +30,7 @@ action_class do
      
     request["Content-Type"] = 'text/plain'
     request["Accept"] = '*/*'
-    request["Host"] = "#{node['url']['host']}"
+    request["Host"] = url.host
     request["Connection"] = 'keep-alive'
     request.basic_auth new_resource.artifactory_username, new_resource.artifactory_password 
     request.body = "items.find({\"repo\":{\"$eq\":\"   #{new_resource.repository}\"}})"
