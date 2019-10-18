@@ -66,7 +66,7 @@ action_class do
       :username => new_resource.artifactory_username,
       :password => new_resource.artifactory_password,
     )
-    
+
     if new_resource.artifactory_url
       artifactory_url = ::URI.parse(new_resource.artifactory_url)
     else
