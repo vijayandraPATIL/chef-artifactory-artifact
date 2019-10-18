@@ -8,7 +8,8 @@ artifactory_artifact "/opt/commons-httpclient/commons-httpclient-3.1.jar" do
 end
 
 
-#testing to fetch highest versioned artifact from artifactory
+# Testing to fetch highest versioned artifact from Artifactory
+# I have tested this from my end and it works fine , any tester can do as long as they have an internal Artifactory.
 artifactory_artifact "/opt/common-httpclient.zip" do
   artifactoryonline "grails"
   repository "core"

@@ -21,7 +21,7 @@ action_class do
   include ::ArtifactoryArtifact::Helper
 
   def fetch_highest (new_resource)
-    #Fetching list of artifacts from artifactory 
+    # Fetching list of artifacts from artifactory 
     url = URI("#{new_resource.artifactory_url}/api/search/aql/")
     http = Net::HTTP.new(url.host, url.port)
         request = Net::HTTP::Post.new(url)
@@ -37,14 +37,14 @@ action_class do
     parsed_json = JSON.parse(response.body)
     name_re = new_resource.artifact_name.gsub(/HIGHEST/, '([\.0-9]+)')
     
-    #Adding Version tag to parsed_json
+    # Adding Version tag to parsed_json
     parsed_json["results"].each do |res|
         output = res["name"]
         output =~ /^#{name_re}$/
         res['version'] = $1
     end
  
-    #Sorting versions and picking highest value
+    # Sorting versions and picking highest value
     repos = parsed_json['results']
     versions = repos.map { |x| x.values[-1] }
     versions = versions.reject { |item| item.nil? || item == '' }
