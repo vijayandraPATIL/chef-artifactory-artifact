@@ -19,7 +19,7 @@ artifactory_artifact "/opt/twittersdk/twitter-core-1.6.4-javadoc.jar" do
 end
 ```
 
-Download highest versioned artifact from artifactory 
+Download highest versioned artifact from artifactory
 ```rb
 artifactory_artifact "/path/reponame.zip" do
   artifactory_url ""
