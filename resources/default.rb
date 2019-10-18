@@ -20,7 +20,6 @@ action_class do
 
   include ::ArtifactoryArtifact::Helper
 
-
   def fetch_highest (new_resource)
     #Fetching list of artifacts from artifactory 
     url = URI("#{new_resource.artifactory_url}/api/search/aql/")
