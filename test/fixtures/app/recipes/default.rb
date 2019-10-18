@@ -9,7 +9,7 @@ end
 
 
 #testing to fetch highest versioned artifact from artifactory
-artifactory_artifact "/path/reponame.zip" do
+artifactory_artifact "/opt/common-httpclient.zip" do
   artifactoryonline "grails"
   repository "core"
   artifact_name "commons-httpclient-HIGHEST.zip"
