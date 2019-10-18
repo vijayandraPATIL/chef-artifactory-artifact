@@ -10,10 +10,11 @@ end
 
 #testing to fetch highest versioned artifact from artifactory
 artifactory_artifact "/path/reponame.zip" do
-  artifactory_url ""
-  repository ""
-  artifact_name "XYZ-HIGHEST.zip"
+  artifactoryonline "grails"
+  repository "core"
+  artifact_name "commons-httpclient-HIGHEST.zip"
   highest true
-  artifactory_username ""
-  artifactory_password ""
+  owner "root"
+  group "root"
+  mode "0644"
 end
