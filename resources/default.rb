@@ -30,7 +30,7 @@ action_class do
      
     request["Content-Type"] = 'text/plain'
     request["Accept"] = '*/*'
-    request["Host"] = "#{node['chef-artifactory-artifact']['host']}"
+    request["Host"] = "#{node['url']['host']}"
     request["Connection"] = 'keep-alive'
     request.basic_auth new_resource.artifactory_username, new_resource.artifactory_password 
     request.body = "items.find({\"repo\":{\"$eq\":\"   #{new_resource.repository}\"}})"
@@ -38,8 +38,7 @@ action_class do
      
     parsed_json = JSON.parse(response.body)
     name_re = new_resource.artifact_name.gsub(/HIGHEST/, '([\.0-9]+)')
-    puts "name_re: #{name_re}"
-
+    
     #Adding Version tag to parsed_json
     parsed_json["results"].each do |res|
         output = res["name"]
@@ -57,9 +56,6 @@ action_class do
     highest_version = highest_version.last
     highest_versioned_artifact = repos.find {|h1| h1['version']==highest_version}['name']
     path = repos.find {|h1| h1['version']==highest_version}['path']
-    puts "-------------------------------------------------------------------------------------------------------------"
-    puts "Highest versioned artifact is #{highest_versioned_artifact}"
-    puts "-------------------------------------------------------------------------------------------------------------"
     new_resource.repository_path = "#{path}/#{highest_versioned_artifact}"
   end 
 
