@@ -12,8 +12,8 @@ end
 # I have tested this from my end and it works fine , any tester can do as long as they have an internal Artifactory.
 artifactory_artifact "/opt/test_file_highest.zip" do
   artifactory_url node['artifactory_url']
-  repository "chnl-DolceLexarApp1-Dev-generic"
-  artifact_name "DolceLexarPolicy-Policies-HIGHEST.zip"
+  repository node['repository']
+  artifact_name node['artifact_name']
   highest true
   artifactory_username node['artifactory_username']
   artifactory_password node['artifactory_password']
@@ -25,8 +25,8 @@ end
 #testing to fetch highest versioned artifact from artifactory
 artifactory_artifact "/opt/testfile.zip" do
   artifactory_url node['artifactory_url']
-  repository "chnl-DolceLexarApp1-Dev-generic"
-  repository_path "/DolceLexarPolicy-Policies-19.3.0.34.zip"
+  repository node['repository']
+  repository_path node['repository_path']
   artifactory_username node['artifactory_username']
   artifactory_password node['artifactory_password']
   owner "root"
