@@ -9,3 +9,7 @@ end
 describe file("/opt/testfile.zip") do
   it { should be_file }
 end
+
+describe file("/opt/test_file_highest.zip") do
+  it { should be_file }
+end

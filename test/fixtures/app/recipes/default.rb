@@ -10,6 +10,7 @@ end
 
 # Testing to fetch highest versioned artifact from Artifactory
 # I have tested this from my end and it works fine , any tester can do as long as they have an internal Artifactory.
+# To enable this test, create a .kitchen.local.yml file with these attributes..."
 artifactory_artifact "/opt/test_file_highest.zip" do
   artifactory_url node['artifactory_url']
   repository node['repository']
@@ -22,7 +23,6 @@ artifactory_artifact "/opt/test_file_highest.zip" do
   mode "0644"
 end
 
-#testing to fetch highest versioned artifact from artifactory
 artifactory_artifact "/opt/testfile.zip" do
   artifactory_url node['artifactory_url']
   repository node['repository']
