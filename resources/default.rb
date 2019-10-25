@@ -30,7 +30,7 @@ action_class do
     request['Accept'] = '*/*'
     request['Host'] = url.host
     request['Connection'] = 'keep-alive'
-    request.basic_auth new_resource.artifactory_username, new_resource.artifactory_password 
+    request.basic_auth new_resource.artifactory_username, new_resource.artifactory_password
     request.body = "items.find({\"repo\":{\"$eq\":\"   #{new_resource.repository}\"}})"
     response = http.request(request)
 

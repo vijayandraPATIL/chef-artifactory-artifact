@@ -8,7 +8,7 @@ artifactory_artifact "/opt/commons-httpclient/commons-httpclient-3.1.jar" do
 end
 
 # Testing to fetch highest versioned artifact from Artifactory
-# I have tested this from my end and it works fine , 
+# I have tested this from my end and it works fine ,
 # any tester can do as long as they have an internal Artifactory.
 # To enable this test, create a .kitchen.local.yml file with these attributes...
 if node['artifactory_url']
@@ -22,9 +22,9 @@ if node['artifactory_url']
     owner 'root'
     group 'root'
     mode '0644'
-    end
+  end
 
-    artifactory_artifact '/opt/testfile.zip' do
+  artifactory_artifact '/opt/testfile.zip' do
     artifactory_url node['artifactory_url']
     repository node['repository']
     repository_path node['repository_path']
