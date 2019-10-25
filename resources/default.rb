@@ -15,7 +15,7 @@ property :owner, :kind_of => [Integer, String]
 
 action_class do
   require "uri"
-  require "net/http"
+  require 'net/http'
   require 'json'
 
   include ::ArtifactoryArtifact::Helper
