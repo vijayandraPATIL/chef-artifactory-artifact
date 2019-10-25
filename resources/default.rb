@@ -16,7 +16,7 @@ property :owner, :kind_of => [Integer, String]
 action_class do
   require "uri"
   require "net/http"
-  require "json"
+  require 'json'
 
   include ::ArtifactoryArtifact::Helper
 
@@ -24,36 +24,36 @@ action_class do
     # Fetching list of artifacts from artifactory
     url = URI("#{new_resource.artifactory_url}/api/search/aql/")
     http = Net::HTTP.new(url.host, url.port)
-        request = Net::HTTP::Post.new(url)
+      request = Net::HTTP::Post.new(url)
 
-    request["Content-Type"] = 'text/plain'
-    request["Accept"] = '*/*'
-    request["Host"] = url.host
-    request["Connection"] = 'keep-alive'
+    request['Content-Type'] = 'text/plain'
+    request['Accept'] = '*/*'
+    request['Host'] = url.host
+    request['Connection'] = 'keep-alive'
     request.basic_auth new_resource.artifactory_username, new_resource.artifactory_password 
     request.body = "items.find({\"repo\":{\"$eq\":\"   #{new_resource.repository}\"}})"
-        response = http.request(request)
+      response = http.request(request)
 
     parsed_json = JSON.parse(response.body)
     name_re = new_resource.artifact_name.gsub(/HIGHEST/, '([\.0-9]+)')
 
     # Adding Version tag to parsed_json
-    parsed_json["results"].each do |res|
-        output = res["name"]
-        output =~ /^#{name_re}$/
-        res['version'] = $1
+    parsed_json['results'].each do |res|
+      output = res['name']
+      output =~ /^#{name_re}$/
+      res['version'] = $1
     end
 
     # Sorting versions and picking highest value
     repos = parsed_json['results']
     versions = repos.map { |x| x.values[-1] }
     versions = versions.reject { |item| item.nil? || item == '' }
-    highest_version = versions.sort! { |x,y|
+    highest_version = versions.sort! { |x, y|
       Chef::Provider::Package::Yum::RPMUtils.rpmvercmp(x['version'], y['version'])
     }
     highest_version = highest_version.last
     highest_versioned_artifact = repos.find {|h1| h1['version']==highest_version}['name']
-    path = repos.find {|h1| h1['version']==highest_version}['path']
+    path = repos.find { |h1| h1['version'] == highest_version }['path']
     new_resource.repository_path = "#{path}/#{highest_versioned_artifact}"
   end
 
