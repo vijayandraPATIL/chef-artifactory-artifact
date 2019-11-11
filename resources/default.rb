@@ -44,17 +44,12 @@ action_class do
       res['version'] = $1
     end
 
-    # Sorting versions and picking highest value
-    repos = parsed_json['results']
-    versions = repos.map { |x| x.values[-1] }
-    versions = versions.reject { |item| item.nil? || item == '' }
-    highest_version = versions.sort! { |x, y|
-      Chef::Provider::Package::Yum::RPMUtils.rpmvercmp( x['version'], y['version'] )
+    #Sorting versions and picking highest value
+    parsed_json['results'].sort! { |x,y|
+      Chef::Provider::Package::Yum::RPMUtils.rpmvercmp(x['version'], y['version'])
     }
-    highest_version = highest_version.last
-    highest_versioned_artifact = repos.find { |h1| h1['version'] == highest_version }['name']
-    path = repos.find { |h1| h1['version'] == highest_version }['path']
-    new_resource.repository_path = "#{path}/#{highest_versioned_artifact}"
+    highest = parsed_json['results'].last
+    new_resource.repository_path = "#{highest['path']}/#{highest['name']}"
   end
 
   def manage_resource(new_resource)
