@@ -7,7 +7,7 @@ property :repository_path, :kind_of => String, :required => true
 property :artifact_name, :kind_of => String, :required => true
 property :artifactory_username, :kind_of => String
 property :artifactory_password, :kind_of => String
-property :highest, :kind_of => [TrueClass, FalseClass]
+property :fetch_highest, :kind_of => [TrueClass, FalseClass]
 
 property :group, :kind_of => [Integer, String]
 property :mode, :kind_of => [Integer, String]
@@ -20,7 +20,7 @@ action_class do
 
   include ::ArtifactoryArtifact::Helper
 
-  def fetch_highest(new_resource)
+  def fetching_highest(new_resource)
     # Fetching list of artifacts from artifactory
     url = URI("#{new_resource.artifactory_url}/api/search/aql/")
     http = Net::HTTP.new(url.host, url.port)
@@ -53,8 +53,8 @@ action_class do
   end
 
   def manage_resource(new_resource)
-    if new_resource.highest
-      fetch_highest(new_resource)
+    if new_resource.fetch_highest
+      fetching_highest(new_resource)
     end
 
     request_headers = artifactory_headers(
