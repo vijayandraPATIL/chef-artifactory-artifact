@@ -4,7 +4,7 @@ property :artifactory_url, :kind_of => String
 property :artifactoryonline, :kind_of => String
 property :repository, :kind_of => String, :required => true
 property :repository_path, :kind_of => String, :required => true
-property :artifact_name, :kind_of => String, :required => true
+property :artifact_name, :kind_of => String
 property :artifactory_username, :kind_of => String
 property :artifactory_password, :kind_of => String
 property :fetch_highest, :kind_of => [TrueClass, FalseClass]
@@ -21,6 +21,11 @@ action_class do
   include ::ArtifactoryArtifact::Helper
 
   def fetching_highest(new_resource)
+
+    if new_resource.artifact_name.nil?
+      raise Chef::Exceptions::ValidationFailed, "artifact_name is a required property, when fetch_highest is set true"
+    end
+
     # Fetching list of artifacts from artifactory
     url = URI("#{new_resource.artifactory_url}/api/search/aql/")
     http = Net::HTTP.new(url.host, url.port)
@@ -33,6 +38,10 @@ action_class do
     request.basic_auth new_resource.artifactory_username, new_resource.artifactory_password
     request.body = "items.find({\"repo\":{\"$eq\":\"   #{new_resource.repository}\"}})"
     response = http.request(request)
+    
+    unless response.kind_of? Net::HTTPSuccess
+      raise Chef::Exceptions::InvalidSearchQuery , "Artifactory Search Failed"
+    end
 
     parsed_json = JSON.parse(response.body)
     name_re = new_resource.artifact_name.gsub(/HIGHEST/, '([\.0-9]+)')
