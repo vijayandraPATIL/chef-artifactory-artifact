@@ -17,7 +17,6 @@ action_class do
   require "uri"
   require 'net/http'
   require 'json'
-  require 'pp'
 
   include ::ArtifactoryArtifact::Helper
 
