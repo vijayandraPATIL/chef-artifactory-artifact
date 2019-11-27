@@ -17,6 +17,7 @@ action_class do
   require "uri"
   require 'net/http'
   require 'json'
+  require 'pp'
 
   include ::ArtifactoryArtifact::Helper
 
@@ -40,6 +41,7 @@ action_class do
     response = http.request(request)
     
     unless response.kind_of? Net::HTTPSuccess
+      Chef::Log.error(response.body)
       raise Chef::Exceptions::InvalidSearchQuery , "Artifactory Search Failed"
     end
 
