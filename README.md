@@ -25,7 +25,7 @@ artifactory_artifact "/path/reponame.zip" do
   artifactory_url ""
   repository ""
   artifact_name "XYZ-HIGHEST.zip"
-  highest true
+  fetch_highest true
   artifactory_username ""
   artifactory_password ""
 end
