@@ -16,7 +16,7 @@ if node['artifactory_url']
     artifactory_url node['artifactory_url']
     repository node['repository']
     artifact_name node['artifact_name']
-    highest true
+    fetch_highest true
     artifactory_username node['artifactory_username']
     artifactory_password node['artifactory_password']
     owner 'root'
